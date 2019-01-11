@@ -8,8 +8,13 @@
 </head>
 <body>
     <div class="container">
-        <h1>Game Page</h1>
-        <p>Hi, {{ session["username"] }}</p>
+        <div class="greeting">
+            <h1>Game Page</h1>
+            <p>Hi, {{ session["username"] }}</p>
+        </div>
+        <div class="question">
+            <p><strong>{{ riddle.question }}</strong></p>
+        </div>
     </div>
     
 </body>

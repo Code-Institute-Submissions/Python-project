@@ -1,8 +1,10 @@
 import os
-from flask import Flask, render_template, request, session
+import json
+from flask import Flask, render_template, request, session, redirect, url_for
 
 app = Flask(__name__)
-app.secret_key = "secret123string"
+app.secret_key = os.getenv("SECRET", "secret123string")
+
 
 @app.route("/", methods = ["GET", "POST"])
 def index():
@@ -10,13 +12,18 @@ def index():
     if request.method == "POST":
         session["username"] = request.form["username"]
     if "username" in session:
-        return render_template("game.html")
+        return redirect(url_for("game"))
     return render_template("index.html")
-    
+
+
 @app.route("/game")
 def game():
     """Main game page"""
-    return render_template("game.html")
+    riddles = []
+    with open("data/riddles.json", "r") as json_data:
+        riddles = json.load(json_data)
+    return render_template("game.html", riddle = riddles[0])
+    
     
 @app.route("/leaderboard")
 def leaderboard():
