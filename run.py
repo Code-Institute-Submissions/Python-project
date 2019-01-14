@@ -1,11 +1,54 @@
 import os
 import json
-from flask import Flask, render_template, request, session, redirect, url_for
+from flask import Flask, render_template, request, session, redirect, url_for, flash
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET", "secret123string")
 
+attempt = 0
+score = 0
+i = 0
+wrong_answer = []
 
+def process_answer(response, answer):
+    global attempt
+    global score
+    global i
+    if response.lower() == answer and attempt == 0:
+        flash("That's correct! You scored 5 points!")
+        score += 5
+        i += 1
+        return redirect(url_for("game"))
+    elif response.lower() != answer and attempt == 0:
+        flash("Sorry, that's not right! Please try again")
+        attempt +=1
+        wrong_answer.append(response)
+        return redirect(url_for("game"))
+        
+    elif response.lower() == answer and attempt == 1:
+        flash("That's correct! You scored 3 points!")
+        score += 3
+        i += 1
+        attempt = 0
+        return redirect(url_for("game"))
+    elif response.lower() != answer and attempt == 1:
+        flash("Sorry, that's not right! Please try again")
+        attempt +=1
+        wrong_answer.append(response)
+        return redirect(url_for("game"))
+    
+    elif response.lower() == answer and attempt == 2:
+        flash("That's correct! You scored 1 point!")
+        score += 1
+        i += 1
+        attempt = 0
+        return redirect(url_for("game"))
+    else:
+        flash("Sorry, that's not right! You have no more attempts, please try a different riddle")
+        i += 1
+        attempt = 0
+        return redirect(url_for("game"))
+    
 @app.route("/", methods = ["GET", "POST"])
 def index():
     """Welcome / sign in page"""
@@ -16,13 +59,20 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/game")
+@app.route("/game", methods = ["GET", "POST"])
 def game():
     """Main game page"""
     riddles = []
-    with open("data/riddles.json", "r") as json_data:
-        riddles = json.load(json_data)
-    return render_template("game.html", riddle = riddles[0])
+    with open("data/riddles.json", "r") as data:
+        riddles = json.load(data)
+    if i <= len(riddles):
+        if request.method == "POST":
+            response = request.form["answer"]
+            answer = riddles[i]["answer"]
+            process_answer(response, answer)
+    else:
+        flash("That's the end of the game!")
+    return render_template("game.html", riddle = riddles[i], score = score, wrong_answer = wrong_answer)
     
     
 @app.route("/leaderboard")

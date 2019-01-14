@@ -11,9 +11,35 @@
         <div class="greeting">
             <h1>Game Page</h1>
             <p>Hi, {{ session["username"] }}</p>
+            <p>You have 3 attempts to solve the riddle<br>
+               Answer correctly first time and you will gain 5 points<br>
+               Answer correctly second time and you will gain 3 points<br>
+               Answer correctly third time and you will gain 1 point<br>
+               How many points can you score?
+            </p>
         </div>
         <div class="question">
             <p><strong>{{ riddle.question }}</strong></p>
+        </div>
+        <div class="answer">
+            <form method="POST">
+                <textarea name="answer" cols="50" rows="4"></textarea>
+                <br>
+                <button>Submit Answer</button>
+            </form>
+        </div>
+        <div class="response">
+            {% with messages = get_flashed_messages() %}
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            {% endwith %}
+            {% if item in wrong_answer %}
+                <p>{{ item }}</p>
+            {% endif %}
+        </div>
+        <div class="score">
+            Your score: {{ score }}
         </div>
     </div>
     
