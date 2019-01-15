@@ -11,12 +11,13 @@
         <div class="greeting">
             <h1>Game Page</h1>
             <p>Hi, {{ session["username"] }}</p>
-            <p>You have 3 attempts to solve the riddle<br>
-               Answer correctly first time and you will gain 5 points<br>
-               Answer correctly second time and you will gain 3 points<br>
-               Answer correctly third time and you will gain 1 point<br>
-               How many points can you score?
-            </p>
+            <p>You have 3 attempts to solve the riddle</p>
+                <ul>
+                   <li>Answer correctly first time and you will gain 5 points</li>
+                   <li>Answer correctly second time and you will gain 3 points</li>
+                   <li>Answer correctly third time and you will gain 1 point</li>
+               </ul>
+            <p>How many points can you score?</p>
         </div>
         <div class="question">
             <p><strong>{{ riddle.question }}</strong></p>
@@ -34,9 +35,11 @@
                     <p>{{ message }}</p>
                 {% endfor %}
             {% endwith %}
-            {% if item in wrong_answer %}
-                <p>{{ item }}</p>
-            {% endif %}
+            {% for item in wrong_answer %}
+                <ul>
+                    <li>{{ loop.index }}. {{ item }} </li>
+                </ul>
+            {% endfor %}
         </div>
         <div class="score">
             Your score: {{ score }}
