@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Riddle Me This</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Leaderboard Page</h1>
+        {% with messages = get_flashed_messages() %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endwith %}
+        <div>
+            <table style="border: 2px solid black"> 
+                <tr>
+                    <th>Position</th>
+                    <th>Name</th>
+                    <th>Score</th>
+                </tr>
+                {% for username, score in top_scores %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ username }}</td>
+                    <td>{{ score }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <br>
+        <div>
+            <button><a href="{{ url_for('game', username = session["username"]) }}">Back To Game</a></button>
+            <button><a href="{{ url_for('logout') }}">Quit Game</a></button>
+        </div>
+    </div>
+    
+</body>
+</html>
