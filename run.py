@@ -1,5 +1,4 @@
 import os
-
 from flask import Flask, render_template, request, session, redirect, url_for, flash
 
 app = Flask(__name__)
@@ -10,48 +9,56 @@ score = 0
 i = 0
 wrong_answer = []
 riddles = []
+answers = []
 
-def process_answer(response, answer):
+def read_data():
+    with open("data/riddles.txt", "r") as file:
+        lines = file.read().splitlines()
+    for n, text in enumerate(lines):
+        if n%2 == 0:
+            riddles.append(text)
+        else:
+            answers.append(text)
+
+def process_answer(answer):
     global attempt
     global score
     global i
-    if response.lower() == answer and attempt == 0:
-        flash("That's correct! You scored 5 points!")
-        score += 5
-        i += 1
-        return redirect(url_for("game", username = session["username"]))
-    elif response.lower() != answer and attempt == 0:
-        flash("Sorry, that's not right! Please try again")
-        attempt += 1
-        wrong_answer.append(response)
-        return redirect(url_for("game", username = session["username"]))
-    elif response.lower() == answer and attempt == 1:
-        flash("That's correct! You scored 3 points!")
-        score += 3
-        attempt = 0
-        wrong_answer.pop()
-        i += 1
-        return redirect(url_for("game", username = session["username"]))
-    elif response.lower() != answer and attempt == 1:
-        flash("Sorry, that's not right! Please try again")
-        attempt += 1
-        wrong_answer.append(response)
-        return redirect(url_for("game", username = session["username"]))
-    elif response.lower() == answer and attempt == 2:
-        flash("That's correct! You scored 1 point!")
-        score += 1
-        attempt = 0
-        wrong_answer.pop(1)
-        wrong_answer.pop()
-        i += 1
-        return redirect(url_for("game", username = session["username"]))
-    else:
-        flash("Sorry, that's not right! You have no more attempts, please try the next riddle")
-        attempt = 0
-        wrong_answer.pop(1)
-        wrong_answer.pop()
-        i += 1
-        return redirect(url_for("game", username = session["username"]))
+    if request.method == "POST":
+        response = request.form["answer"]
+        if response.lower() == answer and attempt == 0:
+            flash("That's correct! You scored 5 points!")
+            score += 5
+            i += 1
+        elif response.lower() != answer and attempt == 0:
+            flash("Sorry, that's not right! Please try again")
+            attempt += 1
+            wrong_answer.append(response)
+        elif response.lower() == answer and attempt == 1:
+            flash("That's correct! You scored 3 points!")
+            score += 3
+            i += 1
+            attempt = 0
+            wrong_answer.pop()
+        elif response.lower() != answer and attempt == 1:
+            flash("Sorry, that's not right! Please try again")
+            attempt += 1
+            wrong_answer.append(response)
+        elif response.lower() == answer and attempt == 2:
+            flash("That's correct! You scored 1 point!")
+            score += 1
+            i += 1
+            attempt = 0
+            remove_wrong_answer()
+        else:
+            flash("Sorry, that's not right! You have no more attempts, please try the next riddle")
+            i += 1
+            attempt = 0
+            remove_wrong_answer()
+
+def remove_wrong_answer():
+    wrong_answer.pop(1)
+    wrong_answer.pop()
     
 @app.route("/", methods = ["GET", "POST"])
 def index():
@@ -65,20 +72,10 @@ def index():
 @app.route("/game/<username>", methods = ["GET", "POST"])
 def game(username):
     """Main game page"""
-    username = session["username"]
-    answers = []
-    with open("data/riddles.txt", "r") as file:
-        lines = file.read().splitlines()
-    for n, text in enumerate(lines):
-        if n%2 == 0:
-            riddles.append(text)
-        else:
-            answers.append(text)
+    read_data()
     if i < len(riddles):
-        if request.method == "POST":
-            response = request.form["answer"]
-            answer = answers[i]
-            process_answer(response, answer)
+        answer = answers[i]
+        process_answer(answer)
         return render_template("game.html", riddle = riddles[i], score = score, wrong_answer = wrong_answer)
     else:
         return redirect(url_for("leaderboard"))
