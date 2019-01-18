@@ -9,7 +9,6 @@
 <body>
     <div class="container">
         <h1>Leaderboard Page</h1>
-<<<<<<< HEAD
         {% with messages = get_flashed_messages() %}
             {% for message in messages %}
                 <p>{{ message }}</p>
@@ -36,8 +35,6 @@
             <button><a href="{{ url_for('game', username = session["username"]) }}">Back To Game</a></button>
             <button><a href="{{ url_for('logout') }}">Quit Game</a></button>
         </div>
-=======
->>>>>>> 79202d82896f982ad52896f42eb2476a87f50c20
     </div>
     
 </body>
