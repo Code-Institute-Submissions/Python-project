@@ -1,30 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Riddle Me This</title>
-</head>
-<body>
-    <div class="container">
+{% extends "base.html" %}
+    {% block content %}
         <div class="greeting">
-            <h1>Game Page</h1>
-            <p>Hi, {{ session["username"] }}</p>
-            <p>You have 3 attempts to solve the riddle</p>
+            <h2>Hi, {{ session["username"] }}</h2>
+            <h3>You have 3 attempts to solve the riddle</h3>
                 <ul>
                    <li>Answer correctly first time and you will gain 5 points</li>
                    <li>Answer correctly second time and you will gain 3 points</li>
                    <li>Answer correctly third time and you will gain 1 point</li>
                </ul>
-            <p>How many points can you score?</p>
+            <h3>How many points can you score?</h3>
         </div>
         <div class="question">
             <p><strong>{{ riddle }}</strong></p>
         </div>
         <div class="answer">
             <form method="POST">
-                <textarea name="answer" cols="50" rows="4"></textarea>
+                <textarea name="answer" cols="50" rows="2"></textarea>
                 <br>
                 <button>Submit Answer</button>
                 <button><a href="{{ url_for('leaderboard') }}">Show Leaderboard</a></button>
@@ -33,19 +24,16 @@
         <div class="response">
             {% with messages = get_flashed_messages() %}
                 {% for message in messages %}
-                    <p>{{ message }}</p>
+                    <p><strong>{{ message }}</strong></p>
                 {% endfor %}
             {% endwith %}
             {% for item in wrong_answer %}
                 <ul>
-                    <li>{{ loop.index }}. {{ item }} </li>
+                    <li><em>{{ loop.index }}. {{ item }}</em></li>
                 </ul>
             {% endfor %}
         </div>
         <div class="score">
-            Your score: {{ score }}
+            <strong>Your score: {{ score }}</strong>
         </div>
-    </div>
-    
-</body>
-</html>
+    {% endblock  %}
