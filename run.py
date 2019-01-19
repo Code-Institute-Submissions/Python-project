@@ -4,12 +4,10 @@ from flask import Flask, render_template, request, session, redirect, url_for, f
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET", "secret123string")
 
-attempt = 0
-score = 0
-i = 0
 wrong_answer = []
 riddles = []
 answers = []
+scores = []
 
 def read_data():
     with open("data/riddles.txt", "r") as file:
@@ -21,39 +19,36 @@ def read_data():
             answers.append(text)
 
 def process_answer(answer):
-    global attempt
-    global score
-    global i
     if request.method == "POST":
         response = request.form["answer"]
-        if response.lower() == answer and attempt == 0:
+        if response.lower() == answer and session["attempt"] == 0:
             flash("That's correct! You scored 5 points!")
-            score += 5
-            i += 1
-        elif response.lower() != answer and attempt == 0:
+            session["score"] += 5
+            session["number"] += 1
+        elif response.lower() != answer and session["attempt"] == 0:
             flash("Sorry, that's not right! Please try again")
-            attempt += 1
+            session["attempt"] += 1
             wrong_answer.append(response)
-        elif response.lower() == answer and attempt == 1:
+        elif response.lower() == answer and session["attempt"] == 1:
             flash("That's correct! You scored 3 points!")
-            score += 3
-            i += 1
-            attempt = 0
+            session["score"] += 3
+            session["number"] += 1
+            session["attempt"] = 0
             wrong_answer.pop()
-        elif response.lower() != answer and attempt == 1:
+        elif response.lower() != answer and session["attempt"] == 1:
             flash("Sorry, that's not right! Please try again")
-            attempt += 1
+            session["attempt"] += 1
             wrong_answer.append(response)
-        elif response.lower() == answer and attempt == 2:
+        elif response.lower() == answer and session["attempt"] == 2:
             flash("That's correct! You scored 1 point!")
-            score += 1
-            i += 1
-            attempt = 0
+            session["score"] += 1
+            session["number"] += 1
+            session["attempt"] = 0
             remove_wrong_answer()
         else:
             flash("Sorry, that's not right! You have no more attempts, please try the next riddle")
-            i += 1
-            attempt = 0
+            session["number"] += 1
+            session["attempt"] = 0
             remove_wrong_answer()
 
 def remove_wrong_answer():
@@ -65,6 +60,9 @@ def index():
     """Welcome / sign in page"""
     if request.method == "POST":
         session["username"] = request.form["username"]
+        session["score"] = 0
+        session["number"] = 0
+        session["attempt"] = 0
     if "username" in session:
         return redirect(url_for("game", username = session["username"]))
     return render_template("index.html")
@@ -73,20 +71,19 @@ def index():
 def game(username):
     """Main game page"""
     read_data()
-    if i < len(riddles):
-        answer = answers[i]
+    if session["number"] < len(riddles):
+        answer = answers[session["number"]]
         process_answer(answer)
-        return render_template("game.html", riddle = riddles[i], score = score, wrong_answer = wrong_answer)
-    else:
-        return redirect(url_for("leaderboard"))
+        return render_template("game.html", riddle = riddles[session["number"]], score = session["score"], wrong_answer = wrong_answer)
+    return redirect(url_for("leaderboard"))
 
 @app.route("/leaderboard", methods = ["GET", "POST"])
 def leaderboard():
     """Show leaderboard page"""
-    if i >= len(riddles):
+    if session["number"] >= len(riddles):
         flash("Game Complete! Find your score on the leaderboard")
     username = session["username"]
-    scores = []
+    score = session["score"]
     scores.append((username, score))
     top_scores = sorted(scores, key = lambda e: e[1], reverse = True)
     return render_template("leaderboard.html", top_scores = top_scores)

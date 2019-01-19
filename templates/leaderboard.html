@@ -21,7 +21,7 @@
                     <th>Name</th>
                     <th>Score</th>
                 </tr>
-                {% for username, score in top_scores %}
+                {% for (username, score) in top_scores %}
                 <tr>
                     <td>{{ loop.index }}</td>
                     <td>{{ username }}</td>
