@@ -22,31 +22,31 @@ def process_answer(answer):
     if request.method == "POST":
         response = request.form["answer"]
         if response.lower() == answer and session["attempt"] == 0:
-            flash("That's correct! You scored 5 points!")
+            flash("That's correct! You scored 5 points!", "right")
             session["score"] += 5
             session["number"] += 1
         elif response.lower() != answer and session["attempt"] == 0:
-            flash("Sorry, that's not right! Please try again")
+            flash("Sorry, that's not right! Please try again", "wrong")
             session["attempt"] += 1
             wrong_answer.append(response)
         elif response.lower() == answer and session["attempt"] == 1:
-            flash("That's correct! You scored 3 points!")
+            flash("That's correct! You scored 3 points!", "right")
             session["score"] += 3
             session["number"] += 1
             session["attempt"] = 0
             wrong_answer.pop()
         elif response.lower() != answer and session["attempt"] == 1:
-            flash("Sorry, that's not right! Please try again")
+            flash("Sorry, that's not right! Please try again", "wrong")
             session["attempt"] += 1
             wrong_answer.append(response)
         elif response.lower() == answer and session["attempt"] == 2:
-            flash("That's correct! You scored 1 point!")
+            flash("That's correct! You scored 1 point!", "right")
             session["score"] += 1
             session["number"] += 1
             session["attempt"] = 0
             remove_wrong_answer()
         else:
-            flash("Sorry, that's not right! You have no more attempts, please try the next riddle")
+            flash("Sorry, that's not right! You have no more attempts, please try the next riddle", "wrong")
             session["number"] += 1
             session["attempt"] = 0
             remove_wrong_answer()
@@ -81,7 +81,7 @@ def game(username):
 def leaderboard():
     """Show leaderboard page"""
     if session["number"] >= len(riddles):
-        flash("Game Complete! Find your score on the leaderboard")
+        flash("Game Complete! Find your score on the leaderboard", "end")
     username = session["username"]
     score = session["score"]
     scores.append((username, score))

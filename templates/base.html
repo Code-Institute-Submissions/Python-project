@@ -5,19 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Riddle Me This</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Varela+Round">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css">
 </head>
 <body>
     <header>
-        <div>
-            <h1>Riddle Me This</h1>
-        </div>
+        <h1>Riddle Me This</h1>
     </header>
     
 <!-- Main Content -->    
-    <div class="container">
+    <main class="container">
         {% block content %}
         {% endblock %}
-    </div>
+    </main>
     
+    <footer>
+        <p>Website by Geoff Doig. Built using Python and Flask.</p>
+    </footer>
 </body>
 </html>

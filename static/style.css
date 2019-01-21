@@ -1,0 +1,263 @@
+body {
+    margin: 0px;
+    background-color: #6d20aa;
+    font-family: 'Varela Round', sans-serif;
+}
+
+header {
+    height: 70px;
+    text-align: center;
+    background-color: #6d20aa;
+    margin-bottom: 10px;
+}
+
+h1 {
+    background-color: #6d20aa;
+    font-size: 40px;
+    text-transform: uppercase;
+    letter-spacing: 10px;
+    color: #ffcc00;
+    padding-top: 10px;
+}
+
+.container {
+    height: auto;
+    width: auto;
+    background-color: #e8ccfd;
+}
+
+/*------Sign in Page------*/
+.welcome {
+    padding-top: 50px;
+    text-align: center;
+    color: #ff8c00;
+    font-size: 30px;
+}
+
+h3 {
+    text-align: center;
+    color: #ff8c00;
+    font-size: 24px;
+    margin: 10px;
+}
+
+.login {
+    text-align: center;
+    font-size: 24px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+#username {
+    font-size: 24px;
+    margin-bottom: 30px;
+}
+
+.login button {
+    width: 250px;
+    font-size: 24px;
+    padding: 15px;
+    margin: 30px 10px 50px 10px;
+    border-radius: 40px;
+    background-color: #6d20aa;
+    transition: all 0.3s ease-in;
+}
+
+.login button:hover {
+    background-color: green;
+    cursor: pointer;
+}
+
+/*------Game Page------*/
+.greeting {
+    text-align: center;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    color: #ff8c00;
+}
+
+#player {
+    margin: 10px;
+    padding-top: 10px;
+}
+
+.rewards {
+    list-style-position: inside;
+    text-align: center;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.question {
+    text-align: center;
+    font-size: 24px;
+}
+
+.question p {
+    margin: 10px;
+}
+
+.answer {
+    text-align: center;
+    font-size: 24px;
+}
+
+#reply {
+    height: 50px;
+    width: auto;
+    font-size: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.answer button {
+    width: 250px;
+    font-size: 24px;
+    padding: 10px;
+    border-radius: 40px;
+    margin: 16px;
+    background-color: #6d20aa;
+    transition: all 0.3s ease-in;
+}
+
+.answer button a {
+    text-decoration: none;
+    color: black;
+}
+
+.answer button:hover {
+    background-color: green;
+    cursor: pointer;
+}
+
+.response {
+    text-align: center;
+    font-size: 32px;
+    margin: 10px;
+}
+
+.right {
+    color: green;
+}
+
+.wrong {
+    color: red;
+}
+
+.wrong-answer {
+    list-style-type: none;
+    font-size: 16px;
+}
+
+.score {
+    text-align: center;
+    padding-bottom: 20px;
+    font-size: 32px;
+}
+
+/*------Leaderboard Page------*/
+.leaderboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.end {
+    text-align: center;
+    color: #ff8c00;
+    font-size: 32px;
+}
+
+.leaders {
+    height: auto;
+    max-height: 350px;
+    width: auto;
+    border: 15px ridge #ffcc00;
+    border-radius: 10px;
+    border-collapse: separate;
+    border-spacing: 0px;
+    margin-bottom: 30px;
+}
+
+.leaders th {
+    height: 40px;
+    margin: 4px;
+    border-bottom: 3px ridge #ffcc00; 
+}
+
+#position {
+    width: 50px;
+}
+
+#name {
+    width: 150px;
+}
+
+#score {
+    width: 100px;
+}
+
+.leaders td {
+    height: 30px;
+    margin: 4px;
+    text-align: center;
+    border: 1px solid #6d20aa;
+}
+
+.nav {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+#return {
+    width: 250px;
+    font-size: 24px;
+    padding: 15px;
+    margin: 30px 20px 50px 10px;
+    border-radius: 40px;
+    background-color: #6d20aa;
+    transition: all 0.3s ease-in;
+}
+
+#return:hover {
+    background-color: green;
+    cursor: pointer;
+}
+
+#return a {
+    text-decoration: none;
+    color: black;
+}
+
+#quit {
+    width: 250px;
+    font-size: 24px;
+    padding: 15px;
+    margin: 30px 10px 50px 20px;
+    border-radius: 40px;
+    background-color: #6d20aa;
+    transition: all 0.3s ease-in;
+}
+
+#quit:hover {
+    background-color: red;
+    cursor: pointer;
+}
+
+#quit a {
+    text-decoration: none;
+    color: black;
+}
+
+/*------Footer------*/
+footer {
+    height: 30px;
+    background-color: #6d20aa;
+    text-align: center;
+    padding-top: 10px;
+}

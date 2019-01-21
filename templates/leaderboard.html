@@ -1,17 +1,17 @@
 {% extends "base.html" %}
     {% block content %}
-        <h2>Leaderboard</h2>
-        {% with messages = get_flashed_messages() %}
-            {% for message in messages %}
-                <p><strong>{{ message }}</strong></p>
+        <h2 class="welcome">Leaderboard</h2>
+        {% with messages = get_flashed_messages(with_categories = True) %}
+            {% for category, message in messages %}
+                <p class="{{ category }}"><strong>{{ message }}</strong></p>
             {% endfor %}
         {% endwith %}
-        <div>
-            <table style="border: 2px solid black"> 
+        <div class="leaderboard">
+            <table class="leaders"> 
                 <tr>
-                    <th>Position</th>
-                    <th>Name</th>
-                    <th>Score</th>
+                    <th id="position">Position</th>
+                    <th id="name">Name</th>
+                    <th id="score">Score</th>
                 </tr>
                 {% for (username, score) in top_scores %}
                 <tr>
@@ -21,10 +21,10 @@
                 </tr>
                 {% endfor %}
             </table>
-        </div>
-        <br>
-        <div>
-            <button><a href="{{ url_for('game', username = session["username"]) }}">Back To Game</a></button>
-            <button><a href="{{ url_for('logout') }}">Quit Game</a></button>
+            <br>
+            <div class="nav">
+                <button id="return"><a href="{{ url_for('game', username = session["username"]) }}">Back To Game</a></button>
+                <button id="quit"><a href="{{ url_for('logout') }}">Quit Game</a></button>
+            </div>
         </div>
     {% endblock %}

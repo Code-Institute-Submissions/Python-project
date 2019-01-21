@@ -1,9 +1,9 @@
 {% extends "base.html" %}
     {% block content %}
         <div class="greeting">
-            <h2>Hi, {{ session["username"] }}</h2>
+            <h2 id="player">Hi, {{ session["username"] }}</h2>
             <h3>You have 3 attempts to solve the riddle</h3>
-                <ul>
+                <ul class="rewards">
                    <li>Answer correctly first time and you will gain 5 points</li>
                    <li>Answer correctly second time and you will gain 3 points</li>
                    <li>Answer correctly third time and you will gain 1 point</li>
@@ -15,21 +15,21 @@
         </div>
         <div class="answer">
             <form method="POST">
-                <textarea name="answer" cols="50" rows="2"></textarea>
+                <textarea name="answer" id="reply" placeholder ="Answer"></textarea>
                 <br>
                 <button>Submit Answer</button>
-                <button><a href="{{ url_for('leaderboard') }}">Show Leaderboard</a></button>
             </form>
+            <button><a href="{{ url_for('leaderboard') }}">Show Leaderboard</a></button>
         </div>
         <div class="response">
-            {% with messages = get_flashed_messages() %}
-                {% for message in messages %}
-                    <p><strong>{{ message }}</strong></p>
+            {% with messages = get_flashed_messages(with_categories = True) %}
+                {% for category, message in messages %}
+                    <p class="{{ category }}"><strong>{{ message }}</strong></p>
                 {% endfor %}
             {% endwith %}
             {% for item in wrong_answer %}
-                <ul>
-                    <li><em>{{ loop.index }}. {{ item }}</em></li>
+                <ul class="wrong-answer">
+                    <li><em>{{ loop.index }}. </em><strong>{{ item }}</strong></li>
                 </ul>
             {% endfor %}
         </div>
