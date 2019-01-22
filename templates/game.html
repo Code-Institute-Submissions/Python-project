@@ -19,7 +19,6 @@
                 <br>
                 <button>Submit Answer</button>
             </form>
-            <button><a href="{{ url_for('leaderboard') }}">Show Leaderboard</a></button>
         </div>
         <div class="response">
             {% with messages = get_flashed_messages(with_categories = True) %}
@@ -35,5 +34,9 @@
         </div>
         <div class="score">
             <strong>Your score: {{ score }}</strong>
+        </div>
+        <div class="nav">
+            <button id="show"><a href="{{ url_for('leaderboard') }}">Show Leaderboard</a></button>
+            <button id="next"><a href="{{ url_for('next_riddle') }}">Next Riddle</a></button>
         </div>
     {% endblock  %}

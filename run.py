@@ -24,7 +24,6 @@ def process_answer(answer):
         if response.lower() == answer and session["attempt"] == 0:
             flash("That's correct! You scored 5 points!", "right")
             session["score"] += 5
-            session["number"] += 1
         elif response.lower() != answer and session["attempt"] == 0:
             flash("Sorry, that's not right! Please try again", "wrong")
             session["attempt"] += 1
@@ -32,7 +31,6 @@ def process_answer(answer):
         elif response.lower() == answer and session["attempt"] == 1:
             flash("That's correct! You scored 3 points!", "right")
             session["score"] += 3
-            session["number"] += 1
             session["attempt"] = 0
             wrong_answer.pop()
         elif response.lower() != answer and session["attempt"] == 1:
@@ -42,12 +40,10 @@ def process_answer(answer):
         elif response.lower() == answer and session["attempt"] == 2:
             flash("That's correct! You scored 1 point!", "right")
             session["score"] += 1
-            session["number"] += 1
             session["attempt"] = 0
             remove_wrong_answer()
         else:
             flash("Sorry, that's not right! You have no more attempts, please try the next riddle", "wrong")
-            session["number"] += 1
             session["attempt"] = 0
             remove_wrong_answer()
 
@@ -71,11 +67,17 @@ def index():
 def game(username):
     """Main game page"""
     read_data()
-    if session["number"] < len(riddles):
-        answer = answers[session["number"]]
-        process_answer(answer)
-        return render_template("game.html", riddle = riddles[session["number"]], score = session["score"], wrong_answer = wrong_answer)
-    return redirect(url_for("leaderboard"))
+    answer = answers[session["number"]]
+    process_answer(answer)
+    return render_template("game.html", riddle = riddles[session["number"]], score = session["score"], wrong_answer = wrong_answer)
+    
+@app.route("/next_riddle")
+def next_riddle():
+    session["number"] += 1
+    if len(riddles) > session["number"]:
+        return redirect(url_for("game", username = session["username"]))
+    else:
+        return redirect(url_for("leaderboard"))
 
 @app.route("/leaderboard", methods = ["GET", "POST"])
 def leaderboard():
@@ -94,4 +96,4 @@ def logout():
     return redirect(url_for("index"))
 
 if __name__ == "__main__":
-    app.run(host = os.getenv('IP', '0.0.0.0'), port = int(os.getenv('PORT', '5000')), debug = False)
+    app.run(host = os.getenv('IP', '0.0.0.0'), port = int(os.getenv('PORT', '5000')), debug = True)
