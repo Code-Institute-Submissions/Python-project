@@ -1,5 +1,6 @@
 {% extends "base.html" %}
     {% block content %}
+    <!-- Display leaderboard Page -->
         <h2 class="welcome">Leaderboard</h2>
         {% with messages = get_flashed_messages(with_categories = True) %}
             {% for category, message in messages %}

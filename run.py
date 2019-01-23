@@ -10,6 +10,7 @@ answers = []
 scores = []
 
 def read_data():
+    """Read data file and compile riddles and answers lists"""
     with open("data/riddles.txt", "r") as file:
         lines = file.read().splitlines()
     for n, text in enumerate(lines):
@@ -19,6 +20,7 @@ def read_data():
             answers.append(text)
 
 def process_answer(answer):
+    """Evaluate answer given by player and award points accordingly"""
     if request.method == "POST":
         response = request.form["answer"]
         if response.lower() == answer and session["attempt"] == 0:
@@ -48,6 +50,7 @@ def process_answer(answer):
             remove_wrong_answer()
 
 def remove_wrong_answer():
+    """Stop displaying the wrong answers"""
     wrong_answer.pop(1)
     wrong_answer.pop()
     
@@ -65,7 +68,7 @@ def index():
 
 @app.route("/game/<username>", methods = ["GET", "POST"])
 def game(username):
-    """Main game page"""
+    """Display riddle and evaluate answer given by player"""
     read_data()
     answer = answers[session["number"]]
     process_answer(answer)
@@ -73,8 +76,9 @@ def game(username):
     
 @app.route("/next_riddle")
 def next_riddle():
+    """Increment riddles list index number and display next riddle"""
     session["number"] += 1
-    if len(riddles) > session["number"]:
+    if session["number"] < len(riddles):
         return redirect(url_for("game", username = session["username"]))
     else:
         return redirect(url_for("leaderboard"))
@@ -92,6 +96,7 @@ def leaderboard():
 
 @app.route("/logout")
 def logout():
+    """Log player out of game and return to sign in page"""
     session.pop("username", None)
     return redirect(url_for("index"))
 

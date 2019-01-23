@@ -1,3 +1,4 @@
+/*------General Settings------*/
 body {
     margin: 0px;
     background-color: #6d20aa;
@@ -26,7 +27,7 @@ h1 {
     background-color: #e8ccfd;
 }
 
-/*------Sign in Page------*/
+/*------Welcome / Sign in Page------*/
 .welcome {
     padding-top: 50px;
     text-align: center;
@@ -70,7 +71,7 @@ h3 {
     cursor: pointer;
 }
 
-/*------Game Page------*/
+/*------Main Game Page------*/
 .greeting {
     text-align: center;
     margin-bottom: 10px;
