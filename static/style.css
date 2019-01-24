@@ -6,7 +6,7 @@ body {
 }
 
 header {
-    height: 70px;
+    height: auto;
     text-align: center;
     background-color: #6d20aa;
     margin-bottom: 10px;
@@ -85,8 +85,12 @@ h3 {
 }
 
 .rewards {
-    list-style-position: inside;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    list-style-type: none;
+    padding-left: 10px;
+    padding-right: 10px;
     margin-bottom: 5px;
     margin-top: 5px;
 }
@@ -145,11 +149,13 @@ h3 {
 .wrong-answer {
     list-style-type: none;
     font-size: 16px;
+    padding: 0px;
 }
 
 .score {
     text-align: center;
     padding-bottom: 20px;
+    margin-top: 20px;
     font-size: 32px;
 }
 

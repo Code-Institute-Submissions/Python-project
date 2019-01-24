@@ -63,16 +63,17 @@ def index():
         session["number"] = 0
         session["attempt"] = 0
     if "username" in session:
+        read_data()
         return redirect(url_for("game", username = session["username"]))
     return render_template("index.html")
 
 @app.route("/game/<username>", methods = ["GET", "POST"])
 def game(username):
     """Display riddle and evaluate answer given by player"""
-    read_data()
+    riddle = riddles[session["number"]]
     answer = answers[session["number"]]
     process_answer(answer)
-    return render_template("game.html", riddle = riddles[session["number"]], score = session["score"], wrong_answer = wrong_answer)
+    return render_template("game.html", riddle = riddle, score = session["score"], wrong_answer = wrong_answer)
     
 @app.route("/next_riddle")
 def next_riddle():
@@ -80,8 +81,7 @@ def next_riddle():
     session["number"] += 1
     if session["number"] < len(riddles):
         return redirect(url_for("game", username = session["username"]))
-    else:
-        return redirect(url_for("leaderboard"))
+    return redirect(url_for("leaderboard"))
 
 @app.route("/leaderboard", methods = ["GET", "POST"])
 def leaderboard():
@@ -101,4 +101,4 @@ def logout():
     return redirect(url_for("index"))
 
 if __name__ == "__main__":
-    app.run(host = os.getenv('IP', '0.0.0.0'), port = int(os.getenv('PORT', '5000')), debug = False)
+    app.run(host = os.getenv('IP', '0.0.0.0'), port = int(os.getenv('PORT', '5000')), debug = True)
