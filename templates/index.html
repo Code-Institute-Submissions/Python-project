@@ -1,11 +1,11 @@
 {% extends "base.html" %}
     {% block content %}
-    <!-- Welcome / Sign in Page -->
+        <!-- Welcome / Sign in Page -->
         <h2 class="welcome">Welcome to Riddle Me This - The Riddle Game for All Ages!</h2>
         <br>
         <h3>Please sign in to start</h3>
         <form class="login" method="POST">
-            <input type="text" id="username" name="username" placeholder="Name">
+            <input type="text" id="username" name="username" placeholder="Name" required>
             <br>
             <button>Play the Game</button>
         </form>

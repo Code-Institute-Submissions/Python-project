@@ -31,13 +31,13 @@ h1 {
 .welcome {
     padding-top: 50px;
     text-align: center;
-    color: #ff8c00;
+    color: #dd7900;
     font-size: 30px;
 }
 
 h3 {
     text-align: center;
-    color: #ff8c00;
+    color: #dd7900;
     font-size: 24px;
     margin: 10px;
 }
@@ -76,7 +76,7 @@ h3 {
     text-align: center;
     margin-bottom: 10px;
     margin-top: 10px;
-    color: #ff8c00;
+    color: #dd7900;
 }
 
 #player {
@@ -208,7 +208,7 @@ h3 {
 
 .end {
     text-align: center;
-    color: #ff8c00;
+    color: #dd7900;
     font-size: 32px;
 }
 
